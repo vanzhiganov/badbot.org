@@ -12,9 +12,9 @@ url = 'http://badbot.org/report.php'
 hash = '1234123k4h132jk4h123kj4h123kj4h2k13j4h'
 fileApacheLog = '/var/log/apache2/error.log'
 # path to pid-file
-filePid = 'testsyncDemon.pid'
+filePid = '/tmp/badbot.pid'
 # path to log-file
-fileLog = 'testStoreTask.log'
+fileLog = '/var/log/badbot.log'
 # program start time (not used, but it may need any time)
 dateStart = datetime.datetime.now()
 
@@ -64,18 +64,19 @@ p = apachelog.parser(format)
 
 for line in open('/var/log/apache2/access.log'):
     try:
-       data = p.parse(line)
-       
-       
-       
-       post_data = {"hash":hash, "host":b64encode(data['%h']), "useragent":b64encode(data['%{User-Agent}i']),"time":b64encode(data['%t'])}
-       #print 'hash={0};host:{1};useragent:{2};time:{3}'.format(hash,b64encode(data['%h']),b64encode(data['%{User-Agent}i']),b64encode(data['%t']))
-       print data
-       #print data['%{User-Agent}i']
-       
-#       for s in data:
-#           print s[l]
-       
+        data = p.parse(line)
+
+        post_data = {"hash":hash, "host":b64encode(data['%h']), "useragent":b64encode(data['%{User-Agent}i']),"time":b64encode(data['%t'])}
+
+        if data['%{User-Agent}i'] == "ZmEu":
+            r = requests.post('http://example.com/api', post_data)
+            print r.status_code
+            print r.headers['content-type']
+            print '[{0}] - pid:{1} - [send] - host:{2} - useragent:{3} - time:{4}'.format(datetime.datetime.now(), readPid, data['%h'], data['%{User-Agent}i'], data['%t'])
+            #print 'hash={0};host:{1};useragent:{2};time:{3}'.format(hash,b64encode(data['%h']),b64encode(data['%{User-Agent}i']),b64encode(data['%t']))
+        #print data
+        #print data['%{User-Agent}i']
+     
     except:
        sys.stderr.write("Unable to parse %s" % line)
 
