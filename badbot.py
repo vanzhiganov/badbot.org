@@ -90,11 +90,11 @@ for pathApacheLog, subFolders, files in os.walk(pathApacheLog):
             
                     post_data = {"hash":hash, "host":b64encode(data['%h']), "useragent":b64encode(data['%{User-Agent}i']),"time":b64encode(data['%t'])}
             
-                    #if data['%{User-Agent}i'] == "ZmEu":
-                    r = requests.post(reposrturl, post_data)
-                    #print r.status_code
-                    #print r.headers['content-type']
-                    print '[{0}] - pid:{1} - [send] - host:{2} - useragent:{3} - time:{4}'.format(datetime.datetime.now(), readPid, data['%h'], data['%{User-Agent}i'], data['%t'])
+                    if data['%{User-Agent}i'] == "ZmEu":
+                        r = requests.post(reposrturl, post_data)
+                        #print r.status_code
+                        #print r.headers['content-type']
+                        print '[{0}] - pid:{1} - [send] - host:{2} - useragent:{3} - time:{4}'.format(datetime.datetime.now(), readPid, data['%h'], data['%{User-Agent}i'], data['%t'])
                 except:
                    sys.stderr.write("Unable to parse %s" % line)
 
