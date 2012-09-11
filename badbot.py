@@ -29,7 +29,7 @@ if os.path.exists(filePid):
 else:
         readPid = '-100'
 
-print '[{0}] - pid:{1} - start and check'.format(datetime.datetime.now(), readPid)
+print '[{0}] - pid:{1} - start program'.format(datetime.datetime.now(), readPid)
 
 # STEP 3. Check process by PID from PID-file
 try:
@@ -73,10 +73,7 @@ for line in open('/var/log/apache2/access.log'):
             print r.status_code
             print r.headers['content-type']
             print '[{0}] - pid:{1} - [send] - host:{2} - useragent:{3} - time:{4}'.format(datetime.datetime.now(), readPid, data['%h'], data['%{User-Agent}i'], data['%t'])
-            #print 'hash={0};host:{1};useragent:{2};time:{3}'.format(hash,b64encode(data['%h']),b64encode(data['%{User-Agent}i']),b64encode(data['%t']))
-        #print data
-        #print data['%{User-Agent}i']
-     
     except:
        sys.stderr.write("Unable to parse %s" % line)
 
+print '[{0}] - pid:{1} - stop program'.format(datetime.datetime.now(), readPid)
