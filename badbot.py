@@ -18,10 +18,6 @@ fileLog = 'testStoreTask.log'
 # program start time (not used, but it may need any time)
 dateStart = datetime.datetime.now()
 
-reqtoken = 'secretRequestTokenForRPC'
-resToken = 'secretResponseTokenForRPC'
-rpcLink = "http://s.nazya.com/rpc/"
-
 # STEP 1. Open log file
 log_file = open(fileLog, 'a+')
 
