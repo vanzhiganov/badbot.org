@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import sys
 import os
 import datetime
@@ -10,8 +11,9 @@ import requests
 # git push origin master
 
 # STEP 0. ...
-reposrturl = 'http://badbot.org/report.php'
-hash = '1234123k4h132jk4h123kj4h123kj4h2k13j4h'
+BADBOT_REPORT_URL = 'http://badbot.org/report.php'
+BADBOT_NODE_HASH = '1234123k4h132jk4h123kj4h123kj4h2k13j4h'
+
 fileApacheLog = '/var/log/apache2/error.log'
 pathApacheLog = '/var/log/apache2'
 # path to pid-file
@@ -88,10 +90,10 @@ for pathApacheLog, subFolders, files in os.walk(pathApacheLog):
                 try:
                     data = p.parse(line)
             
-                    post_data = {"hash":hash, "host":b64encode(data['%h']), "useragent":b64encode(data['%{User-Agent}i']),"time":b64encode(data['%t'])}
+                    post_data = {"hash":BADBOT_NODE_HASH, "host":b64encode(data['%h']), "useragent":b64encode(data['%{User-Agent}i']),"time":b64encode(data['%t'])}
             
                     if data['%{User-Agent}i'] == "ZmEu":
-                        r = requests.post(reposrturl, post_data)
+                        r = requests.post(BADBOT_REPORT_URL, post_data)
                         #print r.status_code
                         #print r.headers['content-type']
                         print '[{0}] - pid:{1} - [send] - host:{2} - useragent:{3} - time:{4}'.format(datetime.datetime.now(), readPid, data['%h'], data['%{User-Agent}i'], data['%t'])
